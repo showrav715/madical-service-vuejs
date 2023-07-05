@@ -1,0 +1,76 @@
+.cmn--btn {
+	position: relative;
+	color: $white;
+	border-radius: 7px;
+	width: auto;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: capitalize;
+	outline: none;
+	border: none;
+	padding: 8px 25px 10px;
+	overflow: hidden;
+	background: $base;
+	text-decoration: none;
+	border: 1px solid rgba($base, 0.2);
+	text-align: center;
+	i{
+		margin-left: 8px;
+	}
+	&:hover,
+	&.btn-outline {
+		color: $base;
+		background: transparent;
+		border-color: $base;
+	}
+	&.btn-outline {
+		&:hover {
+			background: $base;
+			color: $white;
+		}
+	}
+}
+button.cmn--btn {
+	padding-top: 0;
+	padding-bottom: 0;
+	height: 50px;
+	&:hover {
+		color: $white;
+		background: $base;
+	}
+}
+.btn.cmn--btn {
+	outline: none;
+	box-shadow: none;
+	&:hover {
+		color: $title;
+		border-color: rgba($title, 0.1);
+	}
+}
+.cmn--video{
+	display: flex;
+	align-items: center;
+	margin-left: 15px;
+	i{
+		border: 2px solid #fd4a3663;
+		width: 30px;
+		height: 30px;
+		line-height: 28px;
+		border-radius: 5px;
+		text-align: center;
+		margin-right: 5px;
+		color: $base;
+		font-size: 12px;
+	}
+	span{
+		font-weight: 500;
+		display: block;
+	}
+}
+.cmn--link{
+	font-weight: 500;
+	i{
+		margin-left: 8px;
+	}
+}
+

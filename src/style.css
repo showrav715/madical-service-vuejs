@@ -1,0 +1,20 @@
+
+
+@import url('../src/assets/css/animate.css');
+@import url('../src/assets/css/all.min.css');
+@import url('../src/assets/css/magnific-popup.css');
+@import url('../src/assets/css/lightbox.min.css');
+@import url('../src/assets/css/odometer.css');
+@import url('../src/assets/css/main.css');
+
+.swiper-wrapper {
+  height: auto;
+  
+}
+.swiper-pagination {
+  position: unset !important;
+  margin-top: 20px;
+}
+
+
+

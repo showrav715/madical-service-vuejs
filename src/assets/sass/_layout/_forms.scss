@@ -1,0 +1,211 @@
+//Contact section//
+.working__dating{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+.wor__date{
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    text-align: center;
+    width: calc(95% / 4);
+    padding: 15px 15px;
+    @include breakpoint(max-md){
+        width: calc(95% / 3);
+    }
+    @include breakpoint(max-sm){
+        width: 100%;
+    }
+    .circle{
+        width: 65px;
+        height: 65px;
+        margin: 0 auto 10px;
+        line-height: 60px;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: $title;
+        display: block;
+        border: 1px solid $base;
+    }
+    p{
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 0;
+        margin: 0;
+    }
+}
+.contact__section{
+	position: relative;
+	padding: 0px 0 88px;
+	&::before{
+		position: absolute;
+		content: "";
+		width: 40%;
+		height: 100%;
+		background: $base;
+		z-index: -1;
+	}
+}
+.contact__form{
+	box-shadow: 9px 9px 30px 10px rgba(0, 0, 0, 0.07);
+	background: $white;
+	padding: 21px 32px 42px;
+	h2{
+		color: $title;
+		font-weight: 700;
+		position: relative;
+		text-align: left;
+		margin-bottom: 37px;
+		&::before{
+            position: absolute;
+            bottom: 0;
+            left: 1px;
+            width: 66px;
+            height: 2px;
+            content:"";
+            background: $base;
+            @include breakpoint(max-lg){
+                left: 45%;
+            }
+            @include breakpoint(max-sm){
+                left: 40%;
+            }
+        }
+	}
+	.form-group{
+		input{
+			padding: 11px 16px 13px;
+			border: 1px solid #454545;
+			color: #454545;
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 15px;
+			width: 100%;
+		}
+		textarea{
+			padding: 11px 16px 13px;
+			border: 1px solid #454545;
+			color: #454545;
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 15px;
+			width: 100%;
+		}
+		::placeholder{
+			color: #454545;
+		}
+	}
+	@include breakpoint(max-xl){
+		padding: 20px 20px 20px;
+	}
+	@include breakpoint(max-sm){
+		padding: 15px 15px 15px;
+	}
+}
+.contact__content{
+	@include breakpoint(max-lg){
+		background: $white;
+		padding: 35px 25px;
+	}
+	h4{
+		font-weight: 700;
+		color: $title;
+		position: relative;
+		padding-bottom: 8px;
+		margin-bottom: 30px;
+		&::before{
+            position: absolute;
+            bottom: 0;
+            left: 1px;
+            width: 66px;
+            height: 2px;
+            content:"";
+            background: $base;
+            @include breakpoint(max-lg){
+                left: 45%;
+            }
+            @include breakpoint(max-sm){
+                left: 40%;
+            }
+        }
+	}
+	p{
+		font-weight: 400;
+		font-size: 13px;
+		line-height: 135.52%;
+		color: #313131;
+		margin-bottom: 32px;
+	}
+}
+.contact__item {
+	&:not(:last-child){
+		margin-bottom: 20px;
+	}
+	&-icon {
+		width: 46px;
+		height: 46px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #C5DAF4;
+		border-radius: 50%;
+	}
+	display: flex;
+	gap: 29px;
+	align-items: center;
+	&-cont {
+		width: calc(100% - 75px);
+		a {
+			color: $base;
+		}
+		.contact__item-title{
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 135.52%;
+			max-width: 200px;
+		}
+	}
+}
+
+.google__maping{
+    iframe{
+        width: 100%;
+        height: 450px;
+        @include breakpoint(max-sm){
+            height: 350px;
+        }
+    }
+}
+
+.contact__number{
+    padding: 20px 20px;
+    border-radius: 5px;
+    text-align: center;
+    background: $white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    .icon{
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid $border-color;
+        margin: 0 auto 15px;
+        i{
+            color: $base;
+            font-size: 28px;
+        }
+    }
+    a{
+        span{
+            color: $base;
+            display: block; 
+            font-weight: 500;
+        }
+    }
+}
+//Contact section//
