@@ -5,11 +5,12 @@
         <div class="col-lg-6 col-md-7">
           <div class="team__content">
             <div class="section__two mb44">
+             
               <h5>
                 {{ about.header_title }}
               </h5>
               <h2 class="d-flex align-items-center">
-                <span class="">{{ about.title }}</span>
+                <span>{{ about.title }}</span>
               </h2>
             </div>
             <p class="ptext1">
@@ -23,7 +24,7 @@
         </div>
         <div class="col-lg-6 col-md-5">
           <a href="#0" class="team__thumb">
-            <img :src="about.photo" class="w-100" alt="img" />
+            <img v-lazy="about.photo" class="w-100" alt="img" />
           </a>
         </div>
       </div>
@@ -31,6 +32,11 @@
   </section>
 </template>
 <script setup>
+import { defineProps, ref } from "vue";
 const { about } = defineProps(["about"]);
+
+
+
+
+
 </script>
-<style lang=""></style>

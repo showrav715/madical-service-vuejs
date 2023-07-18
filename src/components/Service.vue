@@ -5,8 +5,8 @@
       <div class="row justify-content-center">
         <div class="col-lg-5">
           <div class="section-title mb55 text-center">
-            <h6 class="subtitle">What We Do</h6>
-            <h2 class="title">Services For You</h2>
+            <h6 class="subtitle">{{ subtitle }}</h6>
+            <h2 class="title">{{ title }}</h2>
           </div>
         </div>
       </div>
@@ -50,12 +50,12 @@
                 :to="{ name: 'singleService', params: { slug: service.slug } }"
                 class="service__thumb"
               >
-                <img :src="service.photo" alt="service" />
+                <img v-lazy="service.photo" alt="service" />
               </router-link>
               <div class="feature__content">
                 <div class="bgicon">
                   <div class="service-icon">
-                    <img :src="service.feature_icon" alt="service" />
+                    <img v-lazy="service.feature_icon" alt="service" />
                   </div>
                 </div>
                 <h4 class="title">
@@ -77,7 +77,7 @@
                   }"
                   class="cmn--link"
                 >
-                  Read More <i class="fas fa-angle-right"></i>
+                  {{ t("Read More") }} <i class="fas fa-angle-right"></i>
                 </router-link>
               </div>
             </div>
@@ -89,14 +89,13 @@
 </template>
 <script setup>
 import { defineProps, ref } from "vue";
-const { services } = defineProps(["services"]);
-
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, Pagination, Navigation } from "swiper";
 
-const modules = [Autoplay, Pagination, Navigation];
-import "swiper/css";
+const { services } = defineProps(["services", "title", "subtitle"]);
 
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+const modules = [Autoplay, Pagination, Navigation];
 </script>

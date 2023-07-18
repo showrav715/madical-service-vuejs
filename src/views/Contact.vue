@@ -9,11 +9,11 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="breadcrumd__content">
-              <h2 class="title fw-700 mb-3">Contact Us</h2>
+              <h2 class="title fw-700 mb-3">{{ t("Contact us") }}</h2>
               <ul class="bread__list flex-wrap d-flex align-items-center gap-3">
                 <li>
                   <router-link :to="{ name: 'home' }" class="title fw-600">
-                    Home
+                    {{ t("Home") }}
                   </router-link>
                 </li>
                 <li>
@@ -23,7 +23,7 @@
                 </li>
                 <li>
                   <router-link :to="{ name: 'contact' }" class="title fw-600">
-                    Contact Us
+                    {{ t("Contact us") }}
                   </router-link>
                 </li>
               </ul>
@@ -42,7 +42,7 @@
               <div class="icon">
                 <i class="fas fa-phone"></i>
               </div>
-              <a href="#0">
+              <a href="javascript:;">
                 <span>{{ data.phone1 }}</span>
                 <span>{{ data.phone2 }}</span>
               </a>
@@ -53,9 +53,9 @@
               <div class="icon">
                 <i class="fas fa-envelope"></i>
               </div>
-              <a href="#0">
-                <span>Email: {{ data.email1 }}</span>
-                <span>New: {{ data.email2 }}</span>
+              <a href="javascript:;">
+                <span>{{ t("Email") }}: {{ data.email1 }}</span>
+                <span>{{ data.email2 }}</span>
               </a>
             </div>
           </div>
@@ -68,8 +68,8 @@
                 class="alert alert-success alert-dismissible fade show"
                 role="alert"
               >
-                <strong>Submit Successfully. </strong> Your message has been
-                sent
+                <strong>{{ t("Submit Successfully.") }} </strong>
+                {{ t("Your message has been sent") }}
               </div>
               <h2>{{ data.title }}</h2>
               <div class="row g-4">
@@ -77,7 +77,7 @@
                   <input
                     type="text"
                     class="form-control form--control bg--section"
-                    placeholder="Name"
+                    :placeholder="t('Name')"
                     v-model="form.name"
                   />
                   <span v-if="errors.name">{{ errors.name[0] }}</span>
@@ -86,7 +86,7 @@
                   <input
                     type="text"
                     class="form-control form--control bg--section"
-                    placeholder="Email"
+                    :placeholder="t('Email')"
                     v-model="form.email"
                   />
                   <span v-if="errors.email">{{ errors.email[0] }}</span>
@@ -95,7 +95,7 @@
                   <input
                     type="text"
                     class="form-control form--control bg--section"
-                    placeholder="Phone"
+                    :placeholder="t('Phone')"
                     v-model="form.phone"
                   />
                   <span v-if="errors.phone">{{ errors.phone[0] }}</span>
@@ -104,7 +104,7 @@
                   <input
                     type="text"
                     class="form-control form--control bg--section"
-                    placeholder="Subject"
+                    :placeholder="t('Subject')"
                     v-model="form.subject"
                   />
                   <span v-if="errors.subject">{{ errors.subject[0] }}</span>
@@ -112,15 +112,15 @@
                 <div class="col-sm-12 form-group">
                   <textarea
                     class="form-control form--control bg--section"
-                    placeholder="Message"
+                    :placeholder="t('Message')"
                     v-model="form.message"
                   ></textarea>
                   <span v-if="errors.message">{{ errors.message[0] }}</span>
                 </div>
                 <div class="col-xl-12 form-group">
-                  <button type="submit" class="cmn--btn">
-                    {{ btn_ref }}
-                  </button>
+                  <loader-button :loading="isLoading">
+                    {{ t("Send Message") }}
+                  </loader-button>
                 </div>
               </div>
             </form>
@@ -128,7 +128,7 @@
           <div class="col-lg-4">
             <div class="contact__content">
               <h4 class="d-flex align-items-center">
-                <span class="boldtext"> Get in Touch </span>
+                <span class="boldtext"> {{ t("Address us") }} </span>
               </h4>
               <p>
                 {{ data.text }}
@@ -180,21 +180,18 @@
 </template>
 <script setup>
 import { ref, onMounted, inject, reactive } from "vue";
+import LoaderButton from "../components/LoaderButton.vue";
 import myaxios from "../myaxios";
 const loading = inject("loading");
 const breadcumb = inject("breadcumb");
 const data = ref([]);
 const form = reactive({
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
+  
 });
 
 const errors = ref({});
 const success = ref(false);
-
-const btn_ref = ref("Send Message");
+const isLoading = ref(false);
 
 onMounted(() => {
   loading(true);
@@ -202,24 +199,23 @@ onMounted(() => {
 });
 
 const handleSubmit = () => {
-  btn_ref.value = "Sending...";
+  isLoading.value = true;
   myaxios
     .post("/contact/form/submit", form)
     .then((res) => {
-      console.log(res);
-      success.value = true;
-      // rest form
+
       form.name = "";
       form.email = "";
       form.phone = "";
       form.subject = "";
       form.message = "";
-
-      btn_ref.value = "Send Message";
+      errors.value = {};
+      success.value = true;
+      isLoading.value = false;
     })
     .catch((err) => {
       errors.value = err.response.data.errors;
-      btn_ref.value = "Send Message";
+      isLoading.value = false;
     });
 };
 

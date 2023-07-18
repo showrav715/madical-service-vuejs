@@ -13,7 +13,7 @@
               <ul class="bread__list flex-wrap d-flex align-items-center gap-3">
                 <li>
                   <router-link :to="{ name: 'home' }" class="title fw-600">
-                    Home
+                    {{t('Home')}}
                   </router-link>
                 </li>
                 <li>
@@ -22,7 +22,10 @@
                   </a>
                 </li>
                 <li>
-                  <rouer-link :to="{ name:'page',params:{'slug':page.slug} }" class="title fw-600">
+                  <rouer-link
+                    :to="{ name: 'page', params: { slug: page.slug } }"
+                    class="title fw-600"
+                  >
                     {{ page.title }}
                   </rouer-link>
                 </li>
@@ -42,9 +45,10 @@
             </h3>
             <div class="about__content">
               <div class="section__two">
-                <p class="mt-4 fz-18">
-                  {{ page.details && page.details.replace(/<[^>]+>/g, "") }}
-                </p>
+                <div
+                  class="fz-16 mb-4"
+                  v-dompurify-html="page.details && page.details"
+                ></div>
               </div>
             </div>
           </div>
@@ -63,6 +67,7 @@ import myaxios from "../myaxios";
 const route = useRoute();
 const page = ref({});
 onMounted(() => {
+  loading(true);
   getPage();
 });
 

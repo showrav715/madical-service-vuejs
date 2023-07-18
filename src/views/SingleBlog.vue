@@ -1,16 +1,19 @@
 <template lang="">
   <div>
     <!-- Breadcumnd Banner -->
-    <section class="breadcrumb__section" :style="{ 'background-image': `url(${breadcumb()})` }">
+    <section
+      class="breadcrumb__section"
+      :style="{ 'background-image': `url(${breadcumb()})` }"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
-            <div class="breadcrumd__content" >
-              <h2 class="title fw-700 mb-3">Blog - Details</h2>
+            <div class="breadcrumd__content">
+              <h2 class="title fw-700 mb-3">{{ t("Blog - Details") }}</h2>
               <ul class="bread__list flex-wrap d-flex align-items-center gap-3">
                 <li>
                   <router-link :to="{ name: 'home' }" class="title fw-600">
-                    Home
+                    {{ t("Home") }}
                   </router-link>
                 </li>
                 <li>
@@ -20,16 +23,16 @@
                 </li>
                 <li>
                   <router-link :to="{ name: 'blog' }" class="title fw-600">
-                    Blog
+                    {{ t("Blog") }}
                   </router-link>
                 </li>
                 <li>
-                  <a href="#0">
+                  <a href="javascript:;">
                     <i class="fas fa-chevron-right title"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#0" class="title fw-600">
+                  <a href="javascript:;" class="title fw-600">
                     {{ blog.title }}
                   </a>
                 </li>
@@ -61,64 +64,86 @@
                     {{ blog.category && blog.category.name }}
                     <div class="blog-date">
                       <span><i class="fas fa-comment base3"></i></span>
-                      <span>No Comments</span>
+                      <span>{{ blog.comment_count }}</span>
                     </div>
                   </div>
-
-                  <p class="fz-16 mb-4">
-                    {{
-                      blog.description &&
-                      blog.description.replace(/<[^>]+>/g, "")
-                    }}
-                  </p>
+                  <div
+                    v-dompurify-html="blog.description && blog.description"
+                  ></div>
                 </div>
               </div>
               <div class="comment__wrapper">
-                <h3 class="mb-4">[3] Commets</h3>
+                <h3 class="mb-4">[{{ blog.comment_count }}] {{t('Comments')}}</h3>
                 <ul class="comments__list">
-                  <li class="mb-3">
-                    
+                  <li
+                    v-for="comment in blog.comments"
+                    :key="comment.id"
+                    class="mb-3"
+                  >
                     <div class="content">
                       <span
                         class="d-flex fz-22 title mb-2 align-items-center justify-content-between"
                       >
-                        Admin
+                        {{ comment.name }}
                       </span>
                       <p class="fz-14">
-                        Popular admin post ipsum dolor sit amet consectetur,
-                        adipisicing elit. Quasi asperiores necessitatibus quidem
-                        dolore ipsum tempore atque.
+                        {{ comment.comment }}
                       </p>
                     </div>
                   </li>
                 </ul>
               </div>
-              <form action="#0" class="leave__comment">
-                <h4 class="comment__title">Write A Reply Or Comment</h4>
+              <form @submit.prevent="handleComment" class="leave__comment mt-4">
+                <div
+                  v-if="success"
+                  class="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong>{{ t("Submit Successfull.") }}</strong>
+                  {{
+                    t("Thank you for commenting. We will get back to you soon.")
+                  }}
+                </div>
+                <h4 class="comment__title">{{ t("Write A Comment") }}</h4>
                 <div class="row g-3">
+                  <div class="col-lg-6">
+                    <input
+                      type="text"
+                      v-model="comment.name"
+                      :placeholder="t('Your Name')"
+                    />
+                    <span class="text-danger" v-if="errors.name">{{
+                      errors.name[0]
+                    }}</span>
+                  </div>
+                  <div class="col-lg-6">
+                    <input
+                      type="text"
+                      v-model="comment.email"
+                      :placeholder="t('Your Email')"
+                    />
+                    <span class="text-danger" v-if="errors.email">{{
+                      errors.email[0]
+                    }}</span>
+                  </div>
                   <div class="col-lg-12">
                     <textarea
                       cols="45"
                       rows="5"
                       aria-required="true"
-                      placeholder="Your comment"
+                      :placeholder="t('Your comment')"
+                      v-model="comment.comment"
                       name="comment"
                       id="comment"
                     ></textarea>
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Your Name..." />
-                  </div>
-                  <div class="col-lg-6">
-                    <input type="text" placeholder="Your Email..." />
+                    <span class="text-danger" v-if="errors.comment">{{
+                      errors.comment[0]
+                    }}</span>
                   </div>
                   <div class="col-lg-12">
-                    <input type="text" placeholder="Your Website..." />
-                  </div>
-                  <div class="col-lg-12">
-                    <button type="submit" class="cmn--btn">
-                      <span> Post Comment </span>
-                    </button>
+                    <loader-button :loading="isLoading">
+                      <span> {{ t("Post Comment") }} </span>
+                    </loader-button>
                   </div>
                 </div>
               </form>
@@ -126,15 +151,15 @@
             <div class="col-xl-4 col-lg-4">
               <div class="details__sidebar">
                 <div class="details__sidebox mb-30">
-                  <h5 class="details__title">Search Here</h5>
+                  <h5 class="details__title">{{ t("Search Here") }}</h5>
                   <form action="#0">
-                    <input type="text" placeholder="Search Here..." />
+                    <input type="text" :placeholder="t('Search Here')" />
                     <i class="fas fa-search"></i>
                   </form>
                 </div>
 
                 <div class="details__sidebox mb-30">
-                  <h5 class="details__title">Categoris</h5>
+                  <h5 class="details__title">{{ t("Categories") }}</h5>
                   <ul class="cate__list">
                     <li v-for="category in categories" :key="category.id">
                       <router-link
@@ -157,7 +182,7 @@
                 </div>
 
                 <div class="details__sidebox mb-30">
-                  <h5 class="details__title">Recent Post</h5>
+                  <h5 class="details__title">{{ t("Recent Post") }}</h5>
                   <ul class="recent__small">
                     <li
                       v-for="blog in recentBlogs"
@@ -169,7 +194,6 @@
                           name: 'singleBlog',
                           params: { slug: blog.slug },
                         }"
-                        
                         class="recent__thumb"
                       >
                         <img :src="blog.photo" alt="recent" />
@@ -179,7 +203,6 @@
                           name: 'singleBlog',
                           params: { slug: blog.slug },
                         }"
-                        
                         class="textes"
                       >
                         {{ blog.title }}
@@ -198,9 +221,10 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted,watch,inject } from "vue";
+import { ref, onMounted, watch, inject, reactive } from "vue";
 import myaxios from "../myaxios";
 import { useRoute } from "vue-router";
+import LoaderButton from "../components/LoaderButton.vue";
 const breadcumb = inject("breadcumb");
 const blog = ref({});
 const categories = ref({});
@@ -214,8 +238,39 @@ onMounted(() => {
   getBlog();
   getBlogCategory();
   getRecentBlog();
-
 });
+
+const isLoading = ref(false);
+
+const success = ref(false);
+
+const comment = reactive({
+  name: "",
+  email: "",
+  comment: "",
+  blog_id: null,
+});
+
+const errors = ref({});
+const handleComment = () => {
+  isLoading.value = true;
+  myaxios
+    .post("/blog/comment/submit", comment)
+    .then((res) => {
+      success.value = true;
+      isLoading.value = false;
+      comment.name = "";
+      comment.email = "";
+      comment.comment = "";
+      errors.value = {};
+      getBlog();
+    })
+    .catch((err) => {
+      errors.value = err.response.data.errors;
+      console.log(err.response.data.errors);
+      isLoading.value = false;
+    });
+};
 
 watch(
   () => route.params.slug,
@@ -229,6 +284,7 @@ const getBlog = async () => {
   await myaxios.get("/single/blog/" + route.params.slug).then((response) => {
     blog.value = response.data.data;
     status.value = true;
+    comment.blog_id = response.data.data.id;
     loading(false);
   });
 };

@@ -1,8 +1,6 @@
-
-import axios from 'axios'
-
+import axios from "axios";
 const myaxios = axios.create({
-    baseURL: 'http://localhost/medical/api/'
-})
+  baseURL: import.meta.env.VITE_APP_API_URL,
+});
 
-export default myaxios
+export default myaxios;

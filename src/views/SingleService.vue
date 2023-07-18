@@ -9,28 +9,32 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="breadcrumd__content">
-              <h2 class="title fw-700 mb-3">Service - Details</h2>
+              <h2 class="title fw-700 mb-3">{{ t("Service - Details") }}</h2>
               <ul class="bread__list flex-wrap d-flex align-items-center gap-3">
                 <li>
                   <router-link :to="{ name: 'home' }" class="title fw-600">
-                    Home
+                    {{ t("Home") }}
                   </router-link>
                 </li>
                 <li>
-                  <a href="#0">
+                  <a href="javascript:;">
                     <i class="fas fa-chevron-right title"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="service.html" class="title fw-600"> Service </a>
+                  <a href="service.html" class="title fw-600">
+                    {{ t("Service") }}
+                  </a>
                 </li>
                 <li>
-                  <a href="#0">
+                  <a href="javascript:;">
                     <i class="fas fa-chevron-right title"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#0" class="title fw-600"> {{ service.title }} </a>
+                  <a href="javascript:;" class="title fw-600">
+                    {{ service.title }}
+                  </a>
                 </li>
               </ul>
             </div>
@@ -72,12 +76,12 @@
                   <img :src="service.photo" class="w-100" alt="blog" />
                 </div>
                 <div class="blog__item-conts">
-                  <p class="fz-16 mb-4">
-                    {{
-                      service.description &&
-                      service.description.replace(/<[^>]*>/g, "")
-                    }}
-                  </p>
+                  <div
+                    class="fz-16 mb-4"
+                    v-dompurify-html="
+                      service.description && service.description
+                    "
+                  ></div>
                 </div>
               </div>
               <div class="qustion__content">

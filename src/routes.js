@@ -5,12 +5,12 @@ import About from "./views/About.vue";
 import Blog from "./views/Blog.vue";
 import SingleBlog from "./views/SingleBlog.vue";
 import Service from "./views/Service.vue";
+import Doctor from "./views/Doctor.vue";
 import SingleService from "./views/SingleService.vue";
 import Contact from "./views/Contact.vue";
 import Page from "./views/Page.vue";
 
 const routers = [
-
   {
     path: "/",
     name: "home",
@@ -54,6 +54,14 @@ const routers = [
     component: SingleService,
   },
   {
+    path: "/doctors",
+    name: "doctor",
+    component: Doctor,
+    meta: {
+      title: "Doctor",
+    },
+  },
+  {
     path: "/contact",
     name: "contact",
     component: Contact,
@@ -63,12 +71,17 @@ const routers = [
   },
 
   {
-    path: "/:slug",
+    path: "/p/:slug",
     name: "page",
     component: Page,
-    
   },
-  
+
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: (to) => {
+      return { path: "/" };
+    },
+  },
 ];
 
 const router = createRouter({

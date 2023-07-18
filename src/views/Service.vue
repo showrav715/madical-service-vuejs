@@ -1,16 +1,19 @@
 <template lang="">
   <div>
     <!-- Breadcumnd Banner -->
-    <section class="breadcrumb__section" :style="{ 'background-image': `url(${breadcumb()})` }">
+    <section
+      class="breadcrumb__section"
+      :style="{ 'background-image': `url(${breadcumb()})` }"
+    >
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
-            <div class="breadcrumd__content" >
-              <h2 class="title fw-700 mb-3">Service</h2>
+            <div class="breadcrumd__content">
+              <h2 class="title fw-700 mb-3">{{ t("Service") }}</h2>
               <ul class="bread__list flex-wrap d-flex align-items-center gap-3">
                 <li>
                   <router-link :to="{ name: 'home' }" class="title fw-600">
-                    Home
+                    {{ t("Home") }}
                   </router-link>
                 </li>
                 <li>
@@ -19,7 +22,9 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#0" class="title fw-600"> Service </a>
+                  <router-link :to="{ name: 'service' }" class="title fw-600">
+                    {{ t("Service") }}
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -31,13 +36,12 @@
 
     <!-- service section -->
     <section class="service__section pt-100">
-     
       <div class="container">
         <div class="row mb-4 justify-content-center">
           <div class="col-lg-5">
             <div class="section-title text-center">
-              <h6 class="text--base mb-2">FACILITIES WE HAVE</h6>
-              <h2 class="title">Services For You</h2>
+              <h6 class="text--base mb-2">{{t('FACILITIES WE HAVE')}}</h6>
+              <h2 class="title">{{t('Services For You')}}</h2>
             </div>
           </div>
         </div>
@@ -83,7 +87,7 @@
                   }"
                   class="cmn--link"
                 >
-                  Read More <i class="fas fa-angle-right"></i>
+                  {{t('Read More')}} <i class="fas fa-angle-right"></i>
                 </router-link>
               </div>
             </div>
@@ -95,14 +99,14 @@
               :disabled="currentPage === 1"
               class="abox__big"
             >
-              Previous
+              {{t('Previous')}}
             </button>
             <button
               @click="nextPage"
               :disabled="currentPage === totalPages"
               class="abox__big"
             >
-              Next
+              {{t('Next')}}
             </button>
           </div>
         </div>
@@ -112,7 +116,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted,inject } from "vue";
+import { ref, onMounted, inject } from "vue";
 import myaxios from "../myaxios";
 const services = ref([]);
 const currentPage = ref(1);
@@ -129,14 +133,14 @@ const getServices = async () => {
   const res = await myaxios.get("/services?page=" + currentPage.value);
   services.value = res.data.data;
   totalPages.value = res.data.meta.last_page;
-  loading(false)
+  loading(false);
 };
 
 // Go to the previous page
 const previousPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
-    loading(true)
+    loading(true);
     getServices();
   }
 };
@@ -145,7 +149,7 @@ const previousPage = () => {
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
-    loading(true)
+    loading(true);
     getServices();
   }
 };
@@ -154,5 +158,3 @@ const nextPage = () => {
   previousPage, nextPage, getServices, currentPage, totalPages, services;
 }
 </script>
-
-<style lang=""></style>

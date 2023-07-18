@@ -9,11 +9,11 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="breadcrumd__content">
-              <h2 class="title fw-700 mb-3">About Us</h2>
+              <h2 class="title fw-700 mb-3">{{t('About us')}}</h2>
               <ul class="bread__list flex-wrap d-flex align-items-center gap-3">
                 <li>
                   <router-link :to="{ name: 'home' }" class="title fw-600">
-                    Home
+                    {{t('Home')}}
                   </router-link>
                 </li>
                 <li>
@@ -23,7 +23,7 @@
                 </li>
                 <li>
                   <rouer-link :to="{ name: 'about' }" class="title fw-600">
-                    About Us
+                    {{t('About us')}}
                   </rouer-link>
                 </li>
               </ul>
@@ -67,8 +67,8 @@
         <div class="row justify-content-center">
           <div class="col-lg-7">
             <div class="section-title mb55 text-center">
-              <h6 class="subtitle">Our Service</h6>
-              <h2 class="title">Explore Our Main Service</h2>
+              <h6 class="subtitle">{{t('Our Service')}}</h6>
+              <h2 class="title">{{t('Explore Our Main Service')}}</h2>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@
                   }"
                   class="cmn--link"
                 >
-                  Read More <i class="fas fa-angle-right"></i>
+                  {{t('Read More')}} <i class="fas fa-angle-right"></i>
                 </router-link>
               </div>
             </div>

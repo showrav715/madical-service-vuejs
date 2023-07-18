@@ -1,12 +1,15 @@
 <template>
   <vue-element-loading
     :active="isLoading"
-    :duration="1"
+    spinner="bar-fade-scale"
+    style="margin-top: 80px"
+    color="#FF6700"
     :is-full-screen="true"
   />
+
   <div>
     <!-- Header -->
-    <div v-show="!isLoading" class="navbar-bottom">
+    <div class="navbar-bottom">
       <div class="container">
         <div class="navbar-wrapper">
           <div class="logo">
@@ -26,25 +29,61 @@
             </div>
             <ul class="nav-menu">
               <li>
-                <router-link :to="{ name: 'home' }">Home</router-link>
+                <router-link
+                  :to="{ name: 'home' }"
+                  @click="toggleNav"
+                  active-class="active"
+                  >{{ t("Home") }}</router-link
+                >
               </li>
               <li>
-                <router-link :to="{ name: 'about' }">About us</router-link>
+                <router-link
+                  :to="{ name: 'about' }"
+                  @click="toggleNav"
+                  active-class="active"
+                  >{{ t("About us") }}</router-link
+                >
               </li>
               <li>
-                <router-link :to="{ name: 'service' }">Service</router-link>
+                <router-link
+                  :to="{ name: 'service' }"
+                  @click="toggleNav"
+                  active-class="active"
+                  >{{ t("Service") }}</router-link
+                >
               </li>
               <li>
-                <router-link :to="{ name: 'blog' }">Blog</router-link>
+                <router-link
+                  :to="{ name: 'doctor' }"
+                  @click="toggleNav"
+                  active-class="active"
+                  >{{ t("Doctors") }}</router-link
+                >
+              </li>
+              <li>
+                <router-link
+                  :to="{ name: 'blog' }"
+                  @click="toggleNav"
+                  active-class="active"
+                  >{{ t("Blog") }}</router-link
+                >
               </li>
 
               <li>
-                <router-link :to="{ name: 'contact' }">Contact</router-link>
+                <router-link
+                  :to="{ name: 'contact' }"
+                  @click="toggleNav"
+                  active-class="active"
+                  >{{ t("Contact") }}</router-link
+                >
               </li>
               <li>
                 <div class="menu__btn">
-                  <router-link class="cmn--btn" :to="{ name: 'contact' }"
-                    >For Consultation</router-link
+                  <router-link
+                    class="cmn--btn"
+                    @click="toggleNav"
+                    :to="{ name: 'contact' }"
+                    >{{ t("For Consultation") }}</router-link
                   >
                 </div>
               </li>
@@ -70,46 +109,58 @@
           <div class="footer-wrapper">
             <div class="footer-widget">
               <p class="ptext1">
-                lroe ipsum dolor sit amet, consectetur adipiscing elit, dolore
-                magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus
-                commodo
+                {{ setting.footer_text }}
               </p>
 
               <div class="footer-info">
                 <div class="info-items">
-                  <a href="#0"> {{ setting.phone }}</a>
+                  <a href="javascript:;"> {{ setting.phone }}</a>
                 </div>
                 <div class="info-items">
-                  <a href="#0"> {{ setting.email }}</a>
+                  <a href="javascript:;"> {{ setting.email }}</a>
                 </div>
                 <div class="info-items">
-                  <a href="#0"> {{ setting.address }}</a>
+                  <a href="javascript:;"> {{ setting.address }}</a>
                 </div>
               </div>
             </div>
             <div class="footer-widget">
-              <h5 class="footer-title">Quick Links</h5>
+              <h5 class="footer-title">{{ t("Quick Links") }}</h5>
               <ul>
+               
                 <li>
-                  <router-link :to="{ name: 'home' }">Home</router-link>
+                  <router-link :to="{ name: 'about' }">{{
+                    t("About us")
+                  }}</router-link>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'about' }">About us</router-link>
+                  <router-link :to="{ name: 'service' }">{{
+                    t("Service")
+                  }}</router-link>
                 </li>
                 <li>
-                  <router-link :to="{ name: 'service' }">Service</router-link>
+                  <router-link
+                    :to="{ name: 'doctor' }"
+                    @click="toggleNav"
+                    active-class="active"
+                    >{{ t("Doctors") }}</router-link
+                  >
                 </li>
                 <li>
-                  <router-link :to="{ name: 'blog' }">Blog</router-link>
+                  <router-link :to="{ name: 'blog' }">{{
+                    t("Blog")
+                  }}</router-link>
                 </li>
 
                 <li>
-                  <router-link :to="{ name: 'contact' }">Contact</router-link>
+                  <router-link :to="{ name: 'contact' }">{{
+                    t("Contact")
+                  }}</router-link>
                 </li>
               </ul>
             </div>
             <div class="footer-widget">
-              <h5 class="footer-title">Pages</h5>
+              <h5 class="footer-title">{{ t("Pages") }}</h5>
               <ul>
                 <li v-for="page in pages" :key="page.id">
                   <router-link
@@ -120,7 +171,7 @@
               </ul>
             </div>
             <div class="footer-widget">
-              <h5 class="footer-title">Recent Post</h5>
+              <h5 class="footer-title">{{ t("Recent Post") }}</h5>
               <div class="recent-post">
                 <router-link
                   :to="{ name: 'singleBlog', params: { slug: blog.slug } }"
@@ -151,7 +202,7 @@
       </div>
       <div class="footer-copyright">
         <p>
-          <a href="#0">{{ setting.copyright_text }}</a>
+          <a href="javascript:;">{{ setting.copyright_text }}</a>
         </p>
       </div>
       <span class="banner-elem elem3">&nbsp;</span>
@@ -163,16 +214,17 @@
   </div>
 </template>
 <script setup>
-import { ref, provide, onMounted } from "vue";
+import { ref, inject, provide, onMounted } from "vue";
 import myaxios from "../myaxios";
 import VueElementLoading from "vue-element-loading";
+import { getLangs } from "../global";
 
-const setting = ref({});
 const recentblogs = ref({});
 const letest_blog = ref({});
 const pages = ref({});
 const isNavOpen = ref(false);
 const isLoading = ref(true);
+const setting = inject("setting");
 
 const toggleNav = () => {
   isNavOpen.value = !isNavOpen.value;
@@ -196,20 +248,17 @@ const getPages = () => {
 };
 
 onMounted(async () => {
-  await myaxios.get("/get/settings").then((res) => {
-    setting.value = res.data;
-  });
   getBlogs();
   getPages();
+  getLang();
 });
 
-const breadcumb = () => {
-  return setting.value.breadcumb;
+const getLang = () => {
+  myaxios.get("/get/language").then((res) => {
+    getLangs(res.data);
+  });
 };
 
 provide("loading", handleLoading);
-provide("setting", setting);
 provide("latest_blogs", recentblogs);
-provide("breadcumb", breadcumb);
 </script>
-<style lang=""></style>

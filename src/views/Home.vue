@@ -1,10 +1,10 @@
 <template>
   <div>
     <hero :counters="counters" :herodata="heredata" />
-    <service :services="featureServices" />
+    <service :services="featureServices" :subtitle="home_content.service_subtitle" :title="home_content.service_title" />
     <about-section :about="about"></about-section>
-
     <!-- doctor point section -->
+
     <section class="doctor__section pt-70 mb-70">
       <div class="container">
         <div class="row align-items-center justify-content-center">
@@ -20,15 +20,13 @@
       </div>
     </section>
     <!-- doctor point section -->
-
-    <testimonial :testimonials="testimonials" />
-
+    <testimonial :testimonials="testimonials" :title="home_content.testimonial_title" :subtitle="home_content.testimonial_subtitle" />
     <!-- Blog  section -->
     <section class="blog-section pb-200">
       <div class="container">
         <div class="section__two mb-5 text-center">
           <h2 class="d-inline justify-content-center align-items-center">
-            <span class="boldtext"> Latest Blog </span>
+            <span class="boldtext"> {{home_content.blog_title}} </span>
           </h2>
         </div>
         <div class="row g-4 g-lg-3 g-xl-4 justify-content-center">
@@ -37,7 +35,7 @@
       </div>
     </section>
 
-    <partner :partners="partners" />
+    <partner :partners="partners" :title="home_content.partner_title" />
   </div>
 </template>
 
@@ -62,14 +60,15 @@ const testimonials = ref({});
 const latestBlogs = inject("latest_blogs");
 const loading = inject("loading");
 const partners = ref({});
+const home_content = ref({});
 
 onMounted(() => {
-  loading(true)
+  loading(true);
   getData();
 });
 
-const getData = async () => {
-  await myaxios
+const getData = () => {
+  myaxios
     .get("/get/home/data")
     .then((res) => {
       heredata.value = res.data.hero_data;
@@ -79,15 +78,15 @@ const getData = async () => {
       featureDoctors.value = res.data.doctores;
       testimonials.value = res.data.testimonils;
       partners.value = res.data.partners;
-      loading(false)
-      
+      home_content.value = res.data.home_sections;
+      loading(false);
     })
     .catch((err) => {
       console.log(err);
     });
 
   components: {
-    Hero,
+      Hero,
       Service,
       AboutSection,
       Doctor,
@@ -98,4 +97,3 @@ const getData = async () => {
   }
 };
 </script>
-<style lang=""></style>
