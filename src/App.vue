@@ -12,7 +12,7 @@
 <script setup>
 import { onBeforeMount, ref, provide } from "vue";
 import Layout from "./components/Layout.vue";
-import Maintance from "./components/maintance.vue";
+import Maintance from "./components/Maintance.vue";
 import { useRouter } from "vue-router";
 import myaxios from "./myaxios.js";
 const isMaintance = ref(false);
