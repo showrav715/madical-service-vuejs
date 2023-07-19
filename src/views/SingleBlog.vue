@@ -73,7 +73,9 @@
                 </div>
               </div>
               <div class="comment__wrapper">
-                <h3 class="mb-4">[{{ blog.comment_count }}] {{t('Comments')}}</h3>
+                <h3 class="mb-4">
+                  [{{ blog.comment_count }}] {{ t("Comments") }}
+                </h3>
                 <ul class="comments__list">
                   <li
                     v-for="comment in blog.comments"
@@ -152,8 +154,12 @@
               <div class="details__sidebar">
                 <div class="details__sidebox mb-30">
                   <h5 class="details__title">{{ t("Search Here") }}</h5>
-                  <form action="#0">
-                    <input type="text" :placeholder="t('Search Here')" />
+                  <form @submit.prevent="handleSearch">
+                    <input
+                      type="text"
+                      v-model="input"
+                      :placeholder="t('Search Here')"
+                    />
                     <i class="fas fa-search"></i>
                   </form>
                 </div>
@@ -162,12 +168,9 @@
                   <h5 class="details__title">{{ t("Categories") }}</h5>
                   <ul class="cate__list">
                     <li v-for="category in categories" :key="category.id">
-                      <router-link
-                        :to="{
-                          name: 'blog',
-                          query: { category: category.slug },
-                        }"
-                        href="blog-details.html"
+                      <a
+                        href="javascript:;"
+                        @click="handleCategorywise(category.slug)"
                         class="d-flex align-items-center justify-content-between"
                       >
                         <span class="text">
@@ -176,7 +179,7 @@
                         <span class="icon">
                           <i class="fas fa-chevron-right"></i>
                         </span>
-                      </router-link>
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -223,12 +226,13 @@
 <script setup>
 import { ref, onMounted, watch, inject, reactive } from "vue";
 import myaxios from "../myaxios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import LoaderButton from "../components/LoaderButton.vue";
 const breadcumb = inject("breadcumb");
 const blog = ref({});
 const categories = ref({});
 const route = useRoute();
+const router = useRouter();
 const status = ref(false);
 const recentBlogs = ref({});
 const loading = inject("loading");
@@ -241,9 +245,7 @@ onMounted(() => {
 });
 
 const isLoading = ref(false);
-
 const success = ref(false);
-
 const comment = reactive({
   name: "",
   email: "",
@@ -272,11 +274,36 @@ const handleComment = () => {
     });
 };
 
+const query = reactive({
+  category: "",
+  search: "",
+});
+
+const input = ref(null);
+const handleSearch = () => {
+  query.search = input.value;
+};
+
+const handleCategorywise = (slug) => {
+  query.category = slug;
+};
+
+watch(
+  () => [{ ...query }],
+  () => {
+    router.push({
+      name: "blog",
+      query: { ...query },
+    });
+  }
+);
+
 watch(
   () => route.params.slug,
   () => {
     loading(true);
     getBlog();
+    window.scrollTo(0, 0);
   }
 );
 

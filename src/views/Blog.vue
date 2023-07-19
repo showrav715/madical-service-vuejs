@@ -60,7 +60,9 @@
                       {{ blog.category.name }}
                       <div class="blog-date">
                         <span><i class="fas fa-comment base3"></i> </span>
-                        <span>{{ blog.comment_count }} {{t('Comments')}}</span>
+                        <span
+                          >{{ blog.comment_count }} {{ t("Comments") }}</span
+                        >
                       </div>
                     </div>
                     <h3 class="mb-3">
@@ -109,7 +111,7 @@
             <div class="col-xl-4">
               <div class="details__sidebar">
                 <div class="details__sidebox mb-30">
-                  <h5 class="details__title">{{t('Search Here')}}</h5>
+                  <h5 class="details__title">{{ t("Search Here") }}</h5>
                   <form @submit.prevent="handleSearch">
                     <input
                       type="text"
@@ -180,10 +182,11 @@
 <script setup>
 import { ref, onMounted, watch, reactive, inject } from "vue";
 import myaxios from "../myaxios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 const blogs = ref({});
 const categories = ref({});
 const router = useRouter();
+const route = useRoute();
 const recentBlogs = ref({});
 
 const loading = inject("loading");
@@ -220,6 +223,7 @@ const handleCategorywise = (slug) => {
 };
 
 onMounted(() => {
+  Object.assign(query, { ...route.query });
   loading(true);
   getRecentBlog();
   getBlog();
